@@ -12,7 +12,7 @@ uint16_t mergeBytes(uint8_t msb, uint8_t lsb)
 
 int main()
 {
-    Memory  memory("rom_path");
+    Memory  memory("/home/abdelrahman/Downloads/IBM Logo.ch8");
     Display display(64, 32, 10);
     CPU     cpu(&memory, &display);
 
@@ -21,7 +21,7 @@ int main()
         uint8_t  lsb = cpu.fetch();
         uint16_t opcode = mergeBytes(msb, lsb);
         cpu.X = msb & 0x0f;
-        cpu.Y = lsb & 0xf0;
+        cpu.Y = (lsb & 0xf0) >> 4;
         cpu.NNN = opcode & 0x0fff;
         cpu.N = lsb & 0x0f;
         cpu.KK = lsb;
