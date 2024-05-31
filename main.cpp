@@ -1,5 +1,6 @@
 #include <iostream>
 #include "cpu.hpp"
+#include "input.hpp"
 
 using namespace std;
 
@@ -15,8 +16,9 @@ int main()
     Memory  memory("/home/abdelrahman/Downloads/IBM Logo.ch8");
     Display display(64, 32, 10);
     CPU     cpu(&memory, &display);
-
-    while (true) {
+    Input   input(display.window);
+    bool    quit = false;
+    while (!quit) {
         uint8_t  msb = cpu.fetch();
         uint8_t  lsb = cpu.fetch();
         uint16_t opcode = mergeBytes(msb, lsb);
@@ -26,6 +28,7 @@ int main()
         cpu.N = lsb & 0x0f;
         cpu.KK = lsb;
         uint8_t un = msb & 0xf0;
+        input.handleInput(quit);
         if (opcode == 0x00e0) {
             OP00E0(cpu);
         } else if (un == 0x10) {
