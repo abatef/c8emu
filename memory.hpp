@@ -19,7 +19,6 @@ const uint16_t _program_address_e = 0x0e8f;
 0xF0, 0x10, 0xF0, 0x80, 0xF0
 */
 
-// TODO: Load the program to the correct location then load the fonts correctly
 
 const uint8_t fonts[][16] =
     {
