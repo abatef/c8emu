@@ -9,7 +9,7 @@ An implementation of CHIP8 in C++
 ## Building with CMake
 ```
 $ sudo apt-get install cmake libsdl2-dev
-$ git clone https://github.com/abatef/CHIP8-Emulator.git
+$ git clone https://github.com/abatef/chip8emu.git
 $ cd CHIP8-Emulator
 $ cmake CMakeLists.txt
 $ make
