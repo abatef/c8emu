@@ -152,6 +152,8 @@ int main(int argc, char *argv[])
     keys[1] = 0;
     memset(keys, 0, sizeof(int) * 17);
     Input input(display.window, keys);
+    int ins_cnt = 0;
+    int ips = 600 / 60;
     bool quit = false;
     while (!quit) {
         uint8_t msb = cpu.fetch();
@@ -166,12 +168,16 @@ int main(int argc, char *argv[])
         input.handleInput(quit, cpu.keys, nullptr);
         JT[opcode].execute(cpu);
         display.render();
-        if (cpu.d_timer > 0) {
-            cpu.d_timer--;
+        ins_cnt++;
+        if (ins_cnt >= ips) {
+            if (cpu.d_timer > 0) {
+                cpu.d_timer--;
+            }
+            if (cpu.s_timer > 0) {
+                cpu.s_timer--;
+            }
+            ins_cnt = 0;
+            std::this_thread::sleep_for(std::chrono::milliseconds(ips));
         }
-        if (cpu.s_timer > 0) {
-            cpu.s_timer--;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
 }
