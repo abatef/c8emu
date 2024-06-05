@@ -8,6 +8,7 @@ public:
     SDL_Renderer *renderer;
     int           width, height, scale;
     uint8_t       pixels[64][32] = {0};
+    bool          drawFlag;
     Display(int width, int height, int scale)
         : width(width)
         , height(height)
@@ -27,6 +28,7 @@ public:
         if (!renderer) {
             throw std::runtime_error(SDL_GetError());
         }
+        drawFlag = 0;
     }
 
     ~Display()
@@ -52,6 +54,7 @@ public:
                 drawPixel(wrappedX, wrappedY, pixels[wrappedX][wrappedY]);
             }
         }
+        drawFlag = 1;
     }
 
     void drawPixel(int x, int y, uint8_t on)
@@ -63,6 +66,9 @@ public:
 
     void render()
     {
-        SDL_RenderPresent(renderer);
+        if (drawFlag) {
+            SDL_RenderPresent(renderer);
+            drawFlag = 0;
+        }
     }
 };

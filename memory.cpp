@@ -31,7 +31,7 @@ Memory::Memory(std::string rom)
     file.seekg(0, std::ios::beg);
 
     // Reserve space in the memory vector to avoid reallocations
-    memory.resize(0xffff);
+    memory.resize(0x0fff);
 
     // Read the entire file contents directly into the memory vector
     file.read(reinterpret_cast<char *>(memory.data() + _program_address_s), size);

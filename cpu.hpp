@@ -1,6 +1,7 @@
 #ifndef CPU_HPP
 #define CPU_HPP
 
+#include "input.hpp"
 #include "memory.hpp"
 #include "display.hpp"
 
@@ -12,17 +13,20 @@ namespace HW
         struct CPU
         {
             CPU(Memory *_m, Display *_d);
-            uint8_t  R[16];
+            uint8_t R[16];
             uint16_t I;
             uint16_t PC;
             uint16_t STACK[20];
-            uint8_t  SP;
-            uint8_t  d_timer, s_timer;
+            uint8_t SP;
+            uint8_t d_timer, s_timer;
+            Memory *memory;
             Display *display;
-            Memory  *memory;
-            uint8_t  X, Y, KK, N;
+            Input *input;
+            uint8_t X, Y, KK, N;
             uint16_t NNN;
-            void     setVf()
+            bool pause;
+            int keys[17] = {0};
+            void setVf()
             {
                 R[R::VF] = 1;
             }
@@ -35,13 +39,50 @@ namespace HW
     } // namespace CPU
 } // namespace HW
 
+typedef uint16_t (*Execute)(HW::CPU::CPU &cpu);
+
+struct Instruction
+{
+    Execute execute;
+    const char *mnemonic;
+    bool _f[4];
+};
+
 using namespace HW::CPU;
 
 uint16_t OP00E0(CPU &cpu);
+uint16_t OP00EE(CPU &cpu);
 uint16_t OP1NNN(CPU &cpu);
+uint16_t OP2NNN(CPU &cpu);
+uint16_t OP3XKK(CPU &cpu);
+uint16_t OP4XKK(CPU &cpu);
+uint16_t OP5XY0(CPU &cpu);
 uint16_t OP6XNN(CPU &cpu);
 uint16_t OP7XNN(CPU &cpu);
+uint16_t OP8XY0(CPU &cpu);
+uint16_t OP8XY1(CPU &cpu);
+uint16_t OP8XY2(CPU &cpu);
+uint16_t OP8XY3(CPU &cpu);
+uint16_t OP8XY4(CPU &cpu);
+uint16_t OP8XY5(CPU &cpu);
+uint16_t OP8XY6(CPU &cpu);
+uint16_t OP8XY7(CPU &cpu);
+uint16_t OP8XYE(CPU &cpu);
+uint16_t OP9XY0(CPU &cpu);
 uint16_t OPANNN(CPU &cpu);
+uint16_t OPBNNN(CPU &cpu);
+uint16_t OPCXKK(CPU &cpu);
 uint16_t OPDXYN(CPU &cpu);
+uint16_t OPEX9E(CPU &cpu);
+uint16_t OPEXA1(CPU &cpu);
+uint16_t OPFX07(CPU &cpu);
+uint16_t OPFX0A(CPU &cpu);
+uint16_t OPFX15(CPU &cpu);
+uint16_t OPFX18(CPU &cpu);
+uint16_t OPFX1E(CPU &cpu);
+uint16_t OPFX29(CPU &cpu);
+uint16_t OPFX33(CPU &cpu);
+uint16_t OPFX55(CPU &cpu);
+uint16_t OPFX65(CPU &cpu);
 
 #endif // CPU_HPP
