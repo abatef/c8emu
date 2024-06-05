@@ -1,6 +1,8 @@
 #include "cpu.hpp"
 #include "input.hpp"
 #include <chrono>
+#include <iostream>
+#include <ostream>
 #include <thread>
 
 using namespace std;
@@ -143,9 +145,12 @@ uint16_t mergeBytes(uint8_t msb, uint8_t lsb)
 
 int main(int argc, char *argv[])
 {
+    if (argc < 2) {
+        std::cout << "Usage: ./CHIP8 <rom_path> " << std::endl;
+    }
     Instruction JT[0xffff];
     fillJT(JT);
-    Memory memory("/home/abdelrahman/Documents/Texts/EMU/CHIP8/chip8-chrono/roms/invaders.ch8");
+    Memory memory(argv[1]);
     Display display(64, 32, 10);
     CPU cpu(&memory, &display);
     int *keys = new int[17];
@@ -167,6 +172,7 @@ int main(int argc, char *argv[])
         uint8_t un = msb & 0xf0;
         input.handleInput(quit, cpu.keys, nullptr);
         JT[opcode].execute(cpu);
+        std::cout << JT[opcode].mnemonic << std::endl;
         display.render();
         ins_cnt++;
         if (ins_cnt >= ips) {
@@ -174,6 +180,9 @@ int main(int argc, char *argv[])
                 cpu.d_timer--;
             }
             if (cpu.s_timer > 0) {
+                if (cpu.s_timer == 1) {
+                    cout << '\a' << std::endl;
+                }
                 cpu.s_timer--;
             }
             ins_cnt = 0;
