@@ -12,14 +12,6 @@ const uint16_t _program_address_s = 0x0200;
 const uint16_t _program_address_e = 0x0e8f;
 
 // clang-format off
-
-/*
-0xF0, 0x90, 0x90, 0x90, 0xF0,
-0x20, 0x60, 0x20, 0x20, 0x70,
-0xF0, 0x10, 0xF0, 0x80, 0xF0
-*/
-
-
 const uint8_t fonts[][16] =
     {
         {0xF0, 0x90, 0x90, 0x90, 0xF0},  // 0
@@ -40,14 +32,16 @@ const uint8_t fonts[][16] =
         {0xF0, 0x80, 0xF0, 0x80, 0x80}}; // F
 
 // clang-format on
+
 struct Memory
 {
+    Memory();
     Memory(std::string rom);
     std::vector<uint8_t> memory;
-    uint8_t              readByteFromMemory(uint16_t address);
-    uint8_t              writeByteToMemory(uint8_t byte, uint16_t address);
-    void                 loadRom(std::string rom);
-    void                 loadFonts();
+    uint8_t readByteFromMemory(uint16_t address);
+    uint8_t writeByteToMemory(uint8_t byte, uint16_t address);
+    void loadRom(std::string rom);
+    void loadFonts();
 };
 
 #endif // MEMORY_HPP

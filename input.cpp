@@ -1,12 +1,12 @@
 #include "input.hpp"
+#include <SDL2/SDL.h>
 
-Input::Input(SDL_Window *_window, int *k)
-    : window(_window)
+Input::Input()
 {
     SDL_Init(SDL_INIT_EVENTS);
 }
 
-void Input::handleInput(bool &quit, int *keys, uint8_t *r = nullptr)
+void Input::handleInput(bool &quit, uint8_t *r = nullptr)
 {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -139,7 +139,7 @@ void Input::handleInput(bool &quit, int *keys, uint8_t *r = nullptr)
     }
 }
 
-bool Input::isPressed(uint8_t key, int *keys)
+bool Input::isPressed(uint8_t key)
 {
     return keys[key];
 }

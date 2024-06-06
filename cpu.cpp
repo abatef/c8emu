@@ -1,17 +1,18 @@
 #include "cpu.hpp"
-#include <iostream>
 #include <random>
 
-CPU::CPU(Memory *_m, Display *_d)
+CPU::CPU(Memory *_m, Display *_d, Input *_i)
+    : memory(_m)
+    , display(_d)
+    , input(_i)
 {
-    memory = _m;
-    display = _d;
     PC = 0x200;
     SP = 0;
     I = 0;
     d_timer = 0;
     s_timer = 0;
 }
+
 uint8_t CPU::fetch()
 {
     return memory->readByteFromMemory(PC++);
@@ -20,7 +21,6 @@ uint8_t CPU::fetch()
 uint16_t OP00E0(CPU &cpu)
 {
     cpu.display->clear();
-    std::cout << "0x00e0" << std::endl;
     return 0;
 }
 
@@ -36,7 +36,6 @@ uint16_t OP00EE(CPU &cpu)
 uint16_t OP1NNN(CPU &cpu)
 {
     cpu.PC = cpu.NNN;
-    std::cout << "0x1" << std::hex << cpu.NNN << std::endl;
     return 0;
 }
 
@@ -74,14 +73,12 @@ uint16_t OP5XY0(CPU &cpu)
 uint16_t OP6XNN(CPU &cpu)
 {
     cpu.R[cpu.X] = cpu.KK;
-    std::cout << "0x6" << cpu.X << std::hex << cpu.KK << std::endl;
     return 0;
 }
 
 uint16_t OP7XNN(CPU &cpu)
 {
     cpu.R[cpu.X] += cpu.KK;
-    std::cout << "0x7" << cpu.X << std::hex << cpu.KK << std::endl;
     return 0;
 }
 
@@ -171,13 +168,12 @@ uint16_t OP9XY0(CPU &cpu)
 uint16_t OPANNN(CPU &cpu)
 {
     cpu.I = cpu.NNN;
-    std::cout << "0xA" << std::hex << cpu.NNN << std::endl;
     return 0;
 }
 
 uint16_t OPBNNN(CPU &cpu)
 {
-    cpu.PC = cpu.NNN + cpu.R[HW::R::V0];
+    cpu.PC = cpu.NNN + cpu.R[R::V0];
     return 0;
 }
 
@@ -196,7 +192,6 @@ uint16_t OPDXYN(CPU &cpu)
     uint8_t x = cpu.R[cpu.X];
     uint8_t y = cpu.R[cpu.Y];
     uint8_t height = cpu.N;
-    std::cout << "0xD" << cpu.X << cpu.Y << cpu.N << std::endl;
 
     cpu.clearVf();
 
@@ -222,7 +217,7 @@ uint16_t OPDXYN(CPU &cpu)
 
 uint16_t OPEX9E(CPU &cpu)
 {
-    if (cpu.input->isPressed(cpu.R[cpu.X], cpu.keys)) {
+    if (cpu.input->isPressed(cpu.R[cpu.X])) {
         cpu.PC += 2;
     }
     return 0;
@@ -230,7 +225,7 @@ uint16_t OPEX9E(CPU &cpu)
 
 uint16_t OPEXA1(CPU &cpu)
 {
-    if (!cpu.input->isPressed(cpu.R[cpu.X], cpu.keys)) {
+    if (!cpu.input->isPressed(cpu.R[cpu.X])) {
         cpu.PC += 2;
     }
     return 0;
@@ -246,7 +241,7 @@ uint16_t OPFX0A(CPU &cpu)
 {
     cpu.pause = false;
     while (!cpu.pause) {
-        cpu.input->handleInput(cpu.pause, cpu.keys, &cpu.R[cpu.X]);
+        cpu.input->handleInput(cpu.pause, &cpu.R[cpu.X]);
     }
     return 0;
 }
