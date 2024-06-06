@@ -3,7 +3,7 @@ An implementation of CHIP8 in C++
 
 ## Screenshots
 ![Space Invaders Title](./screenshots/spaceinvaderstitle.png)
-![Space Invaders In Game](./screenshots/spaceinvadersingame.png)
+![Test Rom](./screenshots/testrom.png)
 ![Tetris](./screenshots/tetris.png)
 
 ## Building with CMake
