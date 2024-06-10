@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2) {
         std::cout << "Usage: ./CHIP8 <rom_path> " << std::endl;
+        return 0;
     }
     Instruction JT[0xffff];
     fillJT(JT);
