@@ -37,7 +37,7 @@ void Memory::loadFonts()
 
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 5; j++) {
-            memory[i + j + _font_start_addr_s] = fonts[i][j];
+            memory[i + j + _font_start_addr_s] = font_set[i][j];
         }
     }
 }

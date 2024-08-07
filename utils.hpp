@@ -1,19 +1,20 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 #include "cpu.hpp"
+#include "audio.hpp"
 #include <chrono>
 #include <iostream>
 #include <ostream>
 #include <thread>
 
-uint16_t mergeBytes(uint8_t msb, uint8_t lsb)
+inline uint16_t mergeBytes(uint8_t msb, uint8_t lsb)
 {
     uint16_t _msb = 0x00ff & msb;
     uint16_t _lsb = 0x00ff & lsb;
     return ((_msb << 8) | _lsb);
 }
 
-void extractXYN(CPU &cpu, uint8_t msb, uint8_t lsb, uint16_t opcode)
+inline void extractXYN(CPU &cpu, uint8_t msb, uint8_t lsb, uint16_t opcode)
 {
     cpu.X = msb & 0x0f;
     cpu.Y = (lsb & 0xf0) >> 4;
@@ -22,7 +23,7 @@ void extractXYN(CPU &cpu, uint8_t msb, uint8_t lsb, uint16_t opcode)
     cpu.KK = lsb;
 }
 
-void updateTimers(CPU &cpu, int ips, int &ins_cnt)
+inline void updateTimers(CPU &cpu, int ips, int &ins_cnt, Audio &audio)
 {
     ins_cnt++;
     if (ins_cnt >= ips) {
@@ -31,7 +32,7 @@ void updateTimers(CPU &cpu, int ips, int &ins_cnt)
         }
         if (cpu.s_timer > 0) {
             if (cpu.s_timer == 1) {
-                std::cout << '\a' << std::endl;
+                audio.beep(1500);
             }
             cpu.s_timer--;
         }
@@ -40,7 +41,7 @@ void updateTimers(CPU &cpu, int ips, int &ins_cnt)
     }
 }
 
-void fillJT(Instruction JT[])
+inline void fillJT(Instruction JT[])
 {
     for (uint32_t opcode = 0; opcode <= 0xFFFF; ++opcode) {
         // Default to an invalid instruction

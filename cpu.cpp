@@ -203,7 +203,7 @@ uint16_t OPDXYN(CPU &cpu)
             uint8_t wrappedX = (x + col) % 64;
             uint8_t wrappedY = (y + row) % 32;
 
-            uint8_t *screenPixel = &cpu.display->pixels[wrappedX][wrappedY];
+            uint8_t *screenPixel = &cpu.display->backBuffer[wrappedX][wrappedY];
             if (spritePixel && *screenPixel) {
                 cpu.setVf();
             }

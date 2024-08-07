@@ -7,8 +7,7 @@
 
 enum R { V0 = 0, VF = 15 };
 
-struct CPU
-{
+struct CPU {
     CPU(Memory *_m, Display *_d, Input *_i);
     uint8_t R[16];
     uint16_t I;
@@ -35,8 +34,7 @@ struct CPU
 
 typedef uint16_t (*Execute)(CPU &cpu);
 
-struct Instruction
-{
+struct Instruction {
     Execute execute;
     const char *mnemonic;
     bool _f[4];
