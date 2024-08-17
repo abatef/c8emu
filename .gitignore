@@ -1,0 +1,12 @@
+.cache/
+.kdev4/
+build/
+CMakeFiles/
+c8emu*
+cmake_*
+conf.c8
+Makefile
+CMakeCache.txt
+CMakeLists.txt.user
+roms/
+count.py
