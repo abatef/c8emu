@@ -18,7 +18,7 @@ $ make
 ## Usage
 
 ```
-c8emu -rom ./path/to/rom/file
+c8emu -rom ./path/to/rom/file [-res width height]
 ```
 ## Keymap
 | Chip 8 Key | Keyboard Key |
