@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
 
     if (argc < 2) {
-        std::cout << "Usage: ./CHIP8 -rom <rom_path> " << std::endl;
+        std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width height]" << std::endl;
         return 0;
     }
 
@@ -20,13 +20,14 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-rom")) {
             if (i + 1 >= argc) {
-                std::cout << "Usage: ./CHIP8 -rom <rom_path> " << std::endl;
+                std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width height]"
+                          << std::endl;
                 return 1;
             }
             memory.loadRom(argv[i + 1]);
         } else if (!strcmp(argv[i], "-res")) {
             if (i + 2 >= argc) {
-                std::cout << "Usage: ./CHIP8 -res width height " << std::endl;
+                std::cout << "Usage: c8emu -res width height " << std::endl;
                 return 1;
             }
             width = stoi(argv[i + 1]);
