@@ -2,9 +2,9 @@
 #define INPUT_HPP
 
 #include <cstdint>
-class Input
-{
-public:
+
+class Input {
+  public:
     int keys[17] = {0};
     Input();
     void handleInput(bool &quit, uint8_t *r);

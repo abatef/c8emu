@@ -1,9 +1,9 @@
 #ifndef CPU_HPP
 #define CPU_HPP
 
+#include "display.hpp"
 #include "input.hpp"
 #include "memory.hpp"
-#include "display.hpp"
 
 enum R { V0 = 0, VF = 15 };
 
@@ -18,18 +18,12 @@ struct CPU {
     Memory *memory;
     Display *display;
     Input *input;
+    uint8_t fetch();
     uint8_t X, Y, KK, N;
     uint16_t NNN;
     bool pause;
-    void setVf()
-    {
-        R[R::VF] = 1;
-    }
-    void clearVf()
-    {
-        R[R::VF] = 0;
-    }
-    uint8_t fetch();
+    void setVf() { R[R::VF] = 1; }
+    void clearVf() { R[R::VF] = 0; }
 };
 
 typedef uint16_t (*Execute)(CPU &cpu);

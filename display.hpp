@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 
 class Display {
-public:
+  public:
     SDL_Window *window;
     SDL_Renderer *renderer;
     int width, height, scale;

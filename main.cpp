@@ -1,26 +1,25 @@
-#include "cpu.hpp"
-#include "utils.hpp"
 #include <iostream>
 #include <ostream>
 
+#include "cpu.hpp"
+#include "utils.hpp"
+
 using namespace std;
 
-int main(int argc, char *argv[])
-{
-
+int main(int argc, char *argv[]) {
     if (argc < 2) {
-        std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width height]" << std::endl;
+        std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width height]"
+                  << std::endl;
         return 0;
     }
 
-    Instruction JT[0xffff];
-    fillJT(JT);
-    Memory memory {};
+    Memory memory{};
     int width = 640, height = 320;
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-rom")) {
             if (i + 1 >= argc) {
-                std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width height]"
+                std::cout << "Usage: c8emu -rom ./path/to/rom/file [-res width "
+                             "height]"
                           << std::endl;
                 return 1;
             }
@@ -34,11 +33,13 @@ int main(int argc, char *argv[])
             height = stoi(argv[i + 2]);
         }
     }
+    Instruction JT[0xffff];
+    fillJT(JT);
     Display display(width, height);
-    Input input {};
+    Input input{};
     CPU cpu(&memory, &display, &input);
     Audio audio;
-    audio.init();
+    audio.Init();
     int ins_cnt = 0;
     int ips = 540 / 60;
     bool quit = false;
